@@ -1,14 +1,17 @@
-import { createClient } from
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+require("dotenv").config();
 
-const SUPABASE_URL =
-    "https://omojvagpcsebnjlunvtk.supabase.co";
+const { createClient } = require("@supabase/supabase-js");
 
-const SUPABASE_PUBLISHABLE_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tb2p2YWdwY3NlYm5qbHVudnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MTQ2NTcsImV4cCI6MjEwMzk5MDY1N30.KRHJqXhapEWgD2NvbHM_tyVTRtxmg6aI1zbrHNWwWsY" ;
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY,
+    {
+        auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false
+        }
+    }
+);
 
-export const supabase =
-    createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+module.exports = supabase;

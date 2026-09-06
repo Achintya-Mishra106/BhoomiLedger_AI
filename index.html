@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BhoomiLedger AI | Smart Land Records</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🌱
+        </div>
+
+        <div>
+            <h1>BhoomiLedger</h1>
+            <span>AI Land Record Assistant</span>
+        </div>
+
+    </div>
+
+    <div class="nav-badge">
+        🇮🇳 Built for India
+    </div>
+<!-- =====================================================
+     AUTHENTICATION
+===================================================== -->
+
+<div class="auth-nav">
+
+    <!-- Logged-out controls -->
+    <div id="loggedOutControls">
+
+        <button
+            type="button"
+            id="openSignupBtn"
+            class="auth-btn"
+        >
+            Sign Up
+        </button>
+
+        <button
+            type="button"
+            id="openLoginBtn"
+            class="auth-btn auth-btn-primary"
+        >
+            Login
+        </button>
+
+    </div>
+
+
+    <!-- Logged-in controls -->
+    <div
+        id="loggedInControls"
+        style="display: none;"
+    >
+
+        <div class="auth-user">
+
+            <span id="authUserEmail">
+                User
+            </span>
+
+            <span
+                id="authUserRole"
+                class="auth-role"
+            >
+                citizen
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            id="logoutBtn"
+            class="auth-btn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
+</header>
+
+<!-- =====================================================
+     AUTH MODAL
+===================================================== -->
+
+<div id="authModal" class="auth-modal">
+
+    <div class="auth-modal-card">
+
+        <button
+            type="button"
+            id="closeAuthModal"
+            class="auth-modal-close"
+        >
+            ×
+        </button>
+
+        <div class="auth-modal-heading">
+
+            <span id="authModalIcon">
+                🔐
+            </span>
+
+            <h2 id="authModalTitle">
+                Login to BhoomiLedger
+            </h2>
+
+            <p id="authModalSubtitle">
+                Access your BhoomiLedger account.
+            </p>
+
+        </div>
+
+
+        <div
+            id="signupNameGroup"
+            style="display: none;"
+        >
+
+            <label for="authFullName">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="authFullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+            >
+
+        </div>
+
+
+        <label for="authEmail">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="authEmail"
+            placeholder="you@example.com"
+            autocomplete="email"
+        >
+
+
+        <label for="authPassword">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="authPassword"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+        >
+
+
+        <button
+            type="button"
+            id="authSubmitBtn"
+            class="primary-btn auth-submit-btn"
+        >
+            Login
+        </button>
+
+
+        <p
+            id="authMessage"
+            class="auth-message"
+        ></p>
+
+    </div>
+
+</div>
+<main>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-tag">
+            ✨ AI-powered land record assistance
+        </div>
+
+        <h2>
+            Understand your
+            <span>land records</span>
+            with AI.
+        </h2>
+
+        <p>
+            Upload a land record or ask a question.
+            BhoomiLedger AI helps you understand important
+            land-record information in simple language.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-label">
+                OVERVIEW
+            </span>
+
+            <h2>
+                📊 BhoomiLedger Dashboard
+            </h2>
+
+            <p>
+                Your unified overview of land records,
+                documents, AI activity and detected issues.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD STATS -->
+
+    <div class="dashboard-stats">
+
+
+        <!-- LAND RECORDS -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                🗂️
+            </div>
+
+            <div>
+
+                <span class="dashboard-card-label">
+                    Land Records
+                </span>
+
+                <strong id="dashboardRecords">
+                    0
+                </strong>
+
+                <small>
+                    Stored records
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOCUMENTS -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                📄
+            </div>
+
+            <div>
+
+                <span class="dashboard-card-label">
+                    Documents
+                </span>
+
+                <strong id="dashboardDocuments">
+                    0
+                </strong>
+
+                <small>
+                    Analyzed documents
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTIONS -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                ❓
+            </div>
+
+            <div>
+
+                <span class="dashboard-card-label">
+                    AI Questions
+                </span>
+
+                <strong id="dashboardQuestions">
+                    0
+                </strong>
+
+                <small>
+                    Questions asked
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ISSUES -->
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-card-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <span class="dashboard-card-label">
+                    Issues
+                </span>
+
+                <strong id="dashboardIssues">
+                    0
+                </strong>
+
+                <small>
+                    Potential issues detected
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DASHBOARD INFORMATION -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="dashboard-panel">
+
+            <div class="dashboard-panel-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        ACTIVITY
+                    </span>
+
+                    <h3>
+                        🕐 Recent Activity
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="dashboardActivity"
+                class="dashboard-activity"
+            >
+
+                <div class="dashboard-empty">
+
+                    <span>
+                        📭
+                    </span>
+
+                    <p>
+                        No recent activity yet.
+                    </p>
+
+                    <small>
+                        Your land-record and AI activity
+                        will appear here.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION SOURCES -->
+
+        <div class="dashboard-panel">
+
+            <div class="dashboard-panel-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        KNOWLEDGE
+                    </span>
+
+                    <h3>
+                        🌐 Information Sources
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="data-sources">
+
+
+                <div class="source-item">
+
+                    <div class="source-icon">
+                        🏛️
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Government Records
+                        </strong>
+
+                        <small>
+                            Land and property information
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="source-item">
+
+                    <div class="source-icon">
+                        📚
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Acts & Regulations
+                        </strong>
+
+                        <small>
+                            Land-related laws and rules
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="source-item">
+
+                    <div class="source-icon">
+                        📄
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Uploaded Documents
+                        </strong>
+
+                        <small>
+                            Documents analyzed by AI
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="source-item">
+
+                    <div class="source-icon">
+                        🗃️
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            BhoomiLedger Records
+                        </strong>
+
+                        <small>
+                            Unified information stored securely
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATA NETWORK -->
+
+    <div class="dashboard-vision">
+
+        <div class="dashboard-vision-icon">
+            🌐
+        </div>
+
+        <div>
+
+            <span class="section-label">
+                BHOOMI DATA NETWORK
+            </span>
+
+            <h3>
+                One place for scattered land information
+            </h3>
+
+            <p>
+                BhoomiLedger is designed to bring together
+                land records, uploaded documents, government
+                information, Acts, regulations and other
+                trusted sources into one searchable knowledge
+                layer powered by AI.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN AI WORKSPACE
+===================================================== -->
+
+<section class="workspace">
+
+
+    <!-- LEFT PANEL -->
+
+    <div class="panel input-panel">
+
+        <div class="panel-heading">
+
+            <div class="heading-icon">
+                📄
+            </div>
+
+            <div>
+
+                <h3>
+                    Land Record
+                </h3>
+
+                <p>
+                    Upload a document or ask a question
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATE -->
+
+        <label for="state">
+            State
+        </label>
+
+        <select id="state">
+
+            <option value="">
+                Select your state
+            </option>
+
+            <option value="Uttar Pradesh">
+                Uttar Pradesh
+            </option>
+
+            <option value="Bihar">
+                Bihar
+            </option>
+
+            <option value="Rajasthan">
+                Rajasthan
+            </option>
+
+            <option value="Madhya Pradesh">
+                Madhya Pradesh
+            </option>
+
+            <option value="Maharashtra">
+                Maharashtra
+            </option>
+
+            <option value="Karnataka">
+                Karnataka
+            </option>
+
+        </select>
+
+
+        <!-- DOCUMENT -->
+
+        <label for="document">
+
+            Land Record Document
+
+            <span class="optional">
+                Optional
+            </span>
+
+        </label>
+
+
+        <div class="upload-box">
+
+            <div class="upload-icon">
+                📑
+            </div>
+
+            <h4>
+                Upload your land record
+            </h4>
+
+            <p>
+                PDF, JPG, JPEG or PNG
+            </p>
+
+            <input
+                type="file"
+                id="document"
+                accept=".pdf,.jpg,.jpeg,.png"
+            >
+
+        </div>
+
+
+        <p class="upload-hint">
+            Your document is used only to answer your request.
+        </p>
+
+
+        <!-- QUESTION -->
+
+        <label for="question">
+            Ask BhoomiLedger AI
+        </label>
+
+        <textarea
+            id="question"
+            placeholder="Example: Who is the recorded land holder?"
+        ></textarea>
+
+
+        <!-- QUICK QUESTIONS -->
+
+        <div class="quick-title">
+            Try asking
+        </div>
+
+
+        <div class="quick-questions">
+
+            <button
+                type="button"
+                onclick="document.getElementById('question').value='Who is the recorded land holder?'"
+            >
+                👤 Land holder
+            </button>
+
+
+            <button
+                type="button"
+                onclick="document.getElementById('question').value='What is the Khata number?'"
+            >
+                🔢 Khata number
+            </button>
+
+
+            <button
+                type="button"
+                onclick="document.getElementById('question').value='What is the land area?'"
+            >
+                📐 Land area
+            </button>
+
+
+            <button
+                type="button"
+                onclick="document.getElementById('question').value='What is the Khasra number?'"
+            >
+                🧾 Khasra number
+            </button>
+
+        </div>
+
+
+        <!-- ASK BUTTON -->
+
+        <button
+            id="askBtn"
+            class="primary-btn"
+        >
+
+            <span>
+                🤖
+            </span>
+
+            Ask BhoomiLedger AI
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+
+    <div class="panel response-panel">
+
+        <div class="panel-heading">
+
+            <div class="heading-icon ai-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <h3>
+                    AI Response
+                </h3>
+
+                <p>
+                    Your land-record assistant
+                </p>
+
+            </div>
+
+
+            <div class="online-status">
+
+                <span></span>
+
+                AI Online
+
+            </div>
+
+        </div>
+
+
+        <!-- ANSWER -->
+
+        <div class="answer-container">
+
+            <div class="answer-label">
+                BhoomiLedger AI
+            </div>
+
+
+            <div
+                id="answer"
+                class="answer"
+            >
+
+                <div class="welcome-answer">
+
+                    <h4>
+                        Your answer will appear here
+                    </h4>
+
+                    <p>
+                        Select your state and ask a question
+                        about land records, or upload a document
+                        for analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION HISTORY -->
+
+        <div class="history-section">
+
+            <h2>
+                📜 Previous Questions
+            </h2>
+
+            <div id="history">
+
+                <p>
+                    No previous questions yet.
+                </p>
+
+            </div>
+
+              </div>
+
+
+        <!-- DOCUMENT HISTORY -->
+
+        <div class="history-section">
+
+            <h2>
+                📄 Document History
+            </h2>
+
+            <div id="documentHistory">
+
+                <p>
+                    Loading documents...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMATION CARDS -->
+        <div class="info-section">
+
+            <h4>
+                What BhoomiLedger can help with
+            </h4>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-card">
+
+                    <span>
+                        👤
+                    </span>
+
+                    <strong>
+                        Ownership
+                    </strong>
+
+                    <small>
+                        Understand recorded holder information
+                    </small>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        📋
+                    </span>
+
+                    <strong>
+                        Land Records
+                    </strong>
+
+                    <small>
+                        Understand important record fields
+                    </small>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        🔎
+                    </span>
+
+                    <strong>
+                        Document Analysis
+                    </strong>
+
+                    <small>
+                        Extract information from uploaded records
+                    </small>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        🗺️
+                    </span>
+
+                    <strong>
+                        State Context
+                    </strong>
+
+                    <small>
+                        Answers based on your selected state
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WEB GIS
+===================================================== -->
+
+<section class="map-section">
+
+
+    <div class="map-section-header">
+
+        <div>
+
+            <span class="section-label">
+                WEB GIS
+            </span>
+
+            <h2>
+                🗺️ Land Parcel Map
+            </h2>
+
+            <p>
+                View cadastral parcels, land records
+                and geospatial data sources on one map.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================
+         CADASTRAL GEOJSON
+    ================================================= -->
+
+    <div id="geoUploadPanel">
+
+        <label for="geoJsonUpload">
+
+            <strong>
+                Upload Cadastral GeoJSON
+            </strong>
+
+        </label>
+
+        <br><br>
+
+        <input
+            type="file"
+            id="geoJsonUpload"
+            accept=".geojson,.json"
+        >
+
+    </div>
+
+
+    <!-- ================================================
+         DRONE / ORI IMAGERY
+    ================================================= -->
+
+    <div id="imageryUploadPanel">
+
+        <br>
+
+        <label for="imageryType">
+
+            <strong>
+                Add Imagery Source
+            </strong>
+
+        </label>
+
+        <br><br>
+
+
+        <select id="imageryType">
+
+            <option value="drone">
+                Drone Image
+            </option>
+
+            <option value="ori">
+                ORI - Orthorectified Imagery
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <input
+            type="file"
+            id="imageryUpload"
+            accept=".jpg,.jpeg,.png,image/*"
+        >
+
+
+        <p id="selectedImageryParcel">
+            No parcel selected.
+        </p>
+
+    </div>
+
+
+    <!-- ================================================
+         BUILDING FOOTPRINT GEOJSON
+    ================================================= -->
+
+    <div id="buildingUploadPanel">
+
+        <br>
+
+        <label for="buildingGeoJsonUpload">
+
+            <strong>
+                Upload Building Footprints
+            </strong>
+
+        </label>
+
+
+        <br><br>
+
+
+        <input
+            type="file"
+            id="buildingGeoJsonUpload"
+            accept=".geojson,.json"
+        >
+
+
+        <p>
+            Upload GeoJSON containing
+            building footprint polygons.
+        </p>
+
+    </div>
+
+
+    <!-- ================================================
+         LEAFLET MAP
+
+         IMPORTANT:
+         ONLY ONE bhoomiMap ELEMENT
+    ================================================= -->
+
+    <div id="bhoomiMap"></div>
+    <!-- =====================================================
+     HARMONIZATION RESULTS DASHBOARD
+     ===================================================== -->
+
+<div id="harmonizationDashboard">
+
+    <h3>
+        🚨 Harmonization Results
+    </h3>
+
+    <div id="harmonizationResults">
+
+        <p>
+            Upload cadastral and related geospatial data
+            to view validation and conflict results.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     RECENT LAND RECORDS
+===================================================== -->
+
+<section class="records-section">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-label">
+                DATABASE
+            </span>
+
+            <h2>
+                Recent Land Records
+            </h2>
+
+            <p>
+                Previously analyzed land records stored
+                securely in BhoomiLedger.
+            </p>
+
+        </div>
+
+
+        <button
+            id="refreshRecords"
+            class="secondary-btn"
+            type="button"
+        >
+            ↻ Refresh
+        </button>
+
+    </div>
+
+
+    <!-- SEARCH AND FILTERS -->
+
+    <div class="records-search">
+
+
+        <input
+            type="text"
+            id="recordSearch"
+            placeholder="🔎 Search land records..."
+            autocomplete="off"
+        >
+
+
+        <select id="stateFilter">
+
+            <option value="">
+                All States
+            </option>
+
+        </select>
+
+
+        <input
+            type="text"
+            id="districtFilter"
+            placeholder="📍 District"
+            autocomplete="off"
+        >
+
+
+        <input
+            type="text"
+            id="statusFilter"
+            placeholder="📋 Record status"
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <!-- RECORDS -->
+
+    <div
+        id="recordsContainer"
+        class="records-container"
+    >
+
+        <div class="records-loading">
+            Loading saved records...
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     RECORD DETAILS
+===================================================== -->
+
+<section
+    id="recordDetailsSection"
+    class="record-details-section"
+    style="display: none;"
+>
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-label">
+                RECORD VIEW
+            </span>
+
+            <h2>
+                Land Record Details
+            </h2>
+
+            <p>
+                Detailed information from the saved land record.
+            </p>
+
+        </div>
+
+
+        <button
+            id="closeRecordDetails"
+            class="secondary-btn"
+            type="button"
+        >
+            ← Back to Records
+        </button>
+
+    </div>
+
+
+    <!-- SELECTED RECORD -->
+
+    <div id="recordDetailsContainer">
+
+        <!-- Selected record will appear here -->
+
+    </div>
+
+
+    <!-- ================================================
+         RECORD ISSUE CHECK
+    ================================================= -->
+
+    <div class="record-issue-check">
+
+
+        <div class="copilot-heading">
+
+            <div>
+
+                <span class="section-label">
+                    RECORD CHECK
+                </span>
+
+                <h3>
+                    ⚠️ Land Record Check
+                </h3>
+
+                <p>
+                    BhoomiLedger checks this record
+                    for missing or unclear information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="recordIssueResults">
+
+            <div class="issue-loading">
+                🔎 Checking this land record...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================
+         RECORD AI COPILOT
+    ================================================= -->
+
+    <div class="record-copilot">
+
+
+        <div class="copilot-heading">
+
+            <div>
+
+                <span class="section-label">
+                    AI COPILOT
+                </span>
+
+                <h3>
+                    🧠 Ask about this record
+                </h3>
+
+                <p>
+                    Get simple explanations based
+                    on this land record.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="copilot-question"
+            id="explainRecordBtn"
+        >
+            💡 Explain this record
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question"
+            id="summarizeOwnershipBtn"
+        >
+            👤 Summarize ownership
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question"
+            id="verifyRecordBtn"
+        >
+            🔎 What should I verify?
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question"
+            id="explainKhataBtn"
+        >
+            📋 Explain Khata & Khasra
+        </button>
+
+
+        <div class="copilot-input">
+
+
+            <input
+                type="text"
+                id="recordQuestion"
+                placeholder="Ask anything about this land record..."
+                autocomplete="off"
+            >
+
+
+            <button
+                type="button"
+                id="recordAskBtn"
+                class="primary-btn"
+            >
+                🤖 Ask AI
+            </button>
+
+
+        </div>
+
+
+        <div
+            id="recordAiAnswer"
+            class="record-ai-answer"
+        >
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="how-section">
+
+
+    <div class="section-title">
+
+        <div class="hero-tag">
+            SIMPLE • SMART • ACCESSIBLE
+        </div>
+
+        <h2>
+            How BhoomiLedger works
+        </h2>
+
+        <p>
+            Understanding land records
+            in three simple steps.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+
+        <!-- STEP 1 -->
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div class="step-icon">
+                🗺️
+            </div>
+
+            <h3>
+                Select State
+            </h3>
+
+            <p>
+                Choose the state relevant
+                to your land record.
+            </p>
+
+        </div>
+
+
+        <!-- STEP 2 -->
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div class="step-icon">
+                📄
+            </div>
+
+            <h3>
+                Upload or Ask
+            </h3>
+
+            <p>
+                Upload your record
+                or simply ask a question.
+            </p>
+
+        </div>
+
+
+        <!-- STEP 3 -->
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div class="step-icon">
+                🤖
+            </div>
+
+            <h3>
+                Understand
+            </h3>
+
+            <p>
+                Get an easy-to-understand
+                AI explanation.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     DISCLAIMER
+===================================================== -->
+
+<section class="disclaimer">
+
+
+    <div class="disclaimer-icon">
+        ⚠️
+    </div>
+
+
+    <div>
+
+        <strong>
+            Important Notice
+        </strong>
+
+        <p>
+            BhoomiLedger AI provides informational assistance
+            and does not replace official government records,
+            legal advice, or verification from the relevant
+            government authority.
+        </p>
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+
+    <div>
+        🌱 <strong>BhoomiLedger AI</strong>
+    </div>
+
+
+    <span>
+        AI-powered land record assistance • Prototype
+    </span>
+
+
+</footer>
+
+
+<!-- =====================================================
+     LEAFLET JAVASCRIPT
+===================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+</script>
+
+
+<!-- YOUR JAVASCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+<div class="history-section">
+
+    <h2>🔄 Land Transactions</h2>
+
+    <div id="transactionHistory">
+        <p>Loading transactions...</p>
+    </div>
+
+</div>
+<script type="module" src="./script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7.2.0/turf.min.js"></script>
+</body>
+
+</html>

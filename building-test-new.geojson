@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "building_id": "BLD-001",
+        "name": "Boundary Conflict Building"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.9468, 26.8465],
+            [80.9472, 26.8465],
+            [80.9472, 26.8467],
+            [80.9468, 26.8467],
+            [80.9468, 26.8465]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building_id": "BLD-002",
+        "name": "Inside Parcel Building"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.9463, 26.84645],
+            [80.9466, 26.84645],
+            [80.9466, 26.84665],
+            [80.9463, 26.84665],
+            [80.9463, 26.84645]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building_id": "BLD-003",
+        "name": "Newly Detected Building"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.94635, 26.8467],
+            [80.94655, 26.8467],
+            [80.94655, 26.84682],
+            [80.94635, 26.84682],
+            [80.94635, 26.8467]
+          ]
+        ]
+      }
+    }
+  ]
+}

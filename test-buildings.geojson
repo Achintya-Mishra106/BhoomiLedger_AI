@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "building_id": "BLD-001",
+        "name": "Building A",
+        "source": "Test Building Footprint"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.94615, 26.84615],
+            [80.94635, 26.84615],
+            [80.94635, 26.84632],
+            [80.94615, 26.84632],
+            [80.94615, 26.84615]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building_id": "BLD-002",
+        "name": "Building B",
+        "source": "Test Building Footprint"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.94645, 26.84620],
+            [80.94665, 26.84620],
+            [80.94665, 26.84638],
+            [80.94645, 26.84638],
+            [80.94645, 26.84620]
+          ]
+        ]
+      }
+    }
+  ]
+}
